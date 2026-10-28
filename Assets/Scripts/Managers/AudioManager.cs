@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.Audio;
 using System;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance {  get; private set;}
+    public static AudioManager Instance { get; private set; }
 
     [SerializeField] AudioMixerGroup musicMixer;
     [SerializeField] AudioMixerGroup sfxMixer;
@@ -22,7 +23,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null) { Destroy(gameObject); return;}
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -39,7 +40,7 @@ public class AudioManager : MonoBehaviour
     public void SetUpSFXSource()
     {
         sfxSource = new List<AudioSource>();
-        for(int i = 0; i < minSFXSources; i++)
+        for (int i = 0; i < minSFXSources; i++)
         {
             CreateNewSFX();
         }
@@ -50,23 +51,25 @@ public class AudioManager : MonoBehaviour
         AudioSource sound = gameObject.AddComponent<AudioSource>();
         sound.outputAudioMixerGroup = sfxMixer;
 
-        sound.spatialBlend =  0;
+        sound.spatialBlend = 0;
         sfxSource.Add(sound);
-     
+
         return sound;
     }
 
     private AudioSource GetAvailableSource()
     {
-        foreach(AudioSource source in sfxSource)
+        foreach (AudioSource source in sfxSource)
         {
-            if (!source.isPlaying) {
+            if (!source.isPlaying)
+            {
                 {
                     return source;
-                } }
+                }
+            }
         }
 
-        if(sfxSource.Count < maxSFXSources)
+        if (sfxSource.Count < maxSFXSources)
         {
             return CreateNewSFX();
         }
@@ -88,10 +91,10 @@ public class AudioManager : MonoBehaviour
         if (!cooldownSound.ContainsKey(s.name))
         {
             cooldownSound[s.name] = Time.time;
-                return true;
+            return true;
         }
 
-        if(Time.time - cooldownSound[s.name] >= s.cooldown) return true;
+        if (Time.time - cooldownSound[s.name] >= s.cooldown) return true;
 
         return false;
     }
@@ -99,7 +102,7 @@ public class AudioManager : MonoBehaviour
     public void Play(string name)
     {
         Sound sound = GetSound(name);
-        if(sound == null)
+        if (sound == null)
         {
             Debug.LogWarning("No existe el sonido " + name); return;
         }
@@ -111,8 +114,77 @@ public class AudioManager : MonoBehaviour
         src.spatialBlend = 0f;
         src.volume = sound.volume;
 
-        AudioClip clip = sound.clips.Length == 1 ? sound.clips[0] : sound.clips[UnityEngine.Random.Range(0, sound.clips.Length)]; 
+        AudioClip clip = sound.clips.Length == 1 ? sound.clips[0] : sound.clips[UnityEngine.Random.Range(0, sound.clips.Length)];
 
+        src.PlayOneShot(clip, sound.volume);
+    }
 
+    public void Play3D(string name, Vector3 position)
+    {
+        Sound sound = GetSound(name);
+
+        if (sound == null)
+        {
+            Debug.LogWarning("No existe el sonido " + name); return;
+        }
+
+        if (CheckCooldown(sound)) return;
+
+        AudioSource src = GetAvailableSource();
+
+        src.spatialBlend = 1f;
+        src.volume = sound.volume;
+
+        src.rolloffMode = AudioRolloffMode.Linear;
+        src.minDistance = 2f;
+        src.maxDistance = 35f;
+
+        AudioClip clip = sound.clips.Length == 1 ? sound.clips[0] : sound.clips[UnityEngine.Random.Range(9, sound.clips.Length)];
+
+        src.PlayOneShot(clip, sound.volume);
+    }
+
+    public void PlayMusic(string name)
+    {
+
+        Sound sound = GetSound(name);
+
+        if (sound == null || !sound.isMusic) return;
+
+        PlayMusic(sound);
+
+    }
+
+    public void PlayMusic(Sound sound)
+    {
+        musicSource.Stop();
+        musicSource.clip = sound.clips[0];
+        musicSource.volume = sound.volume;
+        musicSource.loop = sound.loop;
+        musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
+    }
+
+    public void FadeMusic(float targetVolume, float fadetTime)
+    {
+        StartCoroutine(FadeCoroutine(targetVolume, fadetTime));
+    }
+
+    public IEnumerator FadeCoroutine(float targetVolume, float fadeTime)
+    {
+        float start = musicSource.volume;
+        float end = 0f;
+
+        while(end< fadeTime)
+        {
+            end += Time.deltaTime;
+
+            musicSource.volume = Mathf.Lerp(start, targetVolume, end/fadeTime);
+            yield return null;
+        }
     }
 }

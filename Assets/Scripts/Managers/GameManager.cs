@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameState InitialState { get; private set; }
 
-    public static event Action<GameState> OnGameStateChanged;
+    public static event Action <GameState> OnGameStateChanged;
 
     private void Awake()
     {
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ChangeState(GameState.MainMenu);
+        AudioManager.Instance.PlayMusic("Music");
     }
 
     public void ChangeState(GameState newState)
