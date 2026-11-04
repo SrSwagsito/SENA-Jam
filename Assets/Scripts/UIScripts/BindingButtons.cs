@@ -1,54 +1,75 @@
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BindingButtons : MonoBehaviour
 {
-    [SerializeField] Button pauseButton;
-    [SerializeField] Button returnToMenuButton;
-    [SerializeField] Button resumeButton;
+    [SerializeField] private List<Button> playButtons = new();
+    [SerializeField] private List<Button> resumeButtons = new();
+    [SerializeField] private List<Button> restartButtons = new();
+    [SerializeField] private List<Button> pauseButtons = new();
+    [SerializeField] private List<Button> returnMenuButtons = new();
 
-    GameManager gm;
+    private GameManager gm;
 
-    private void Awake()
+    private void Start()
     {
         gm = GameManager.Instance;
+
+        RegisterButtons();
     }
 
-    void Start()
+    private void RegisterButtons()
     {
+        Register(playButtons, gm.StartGame);
 
+        Register(resumeButtons, gm.ResumeGame);
 
-        if (pauseButton != null)
+        Register(restartButtons, gm.RestartLevel);
+
+        Register(pauseButtons, gm.PauseGame);
+
+        Register(returnMenuButtons, gm.ReturnToMainMenu);
+
+    }
+
+    private void Register(List<Button> buttons, UnityEngine.Events.UnityAction action)
+    {
+        foreach (Button button in buttons)
         {
-            pauseButton.onClick.AddListener(gm.PauseGame);
-        }
+            if (button != null)
+            {
 
-        if (returnToMenuButton != null)
-        {
-            returnToMenuButton.onClick.AddListener(gm.ReturnToMainMenu);
-        }
-
-        if (resumeButton != null)
-        {
-            resumeButton.onClick.AddListener(gm.ResumeGame);
+                button.onClick.AddListener(action);
+            }
         }
     }
 
     private void OnDestroy()
     {
-        if (pauseButton != null)
-        {
-            pauseButton.onClick.RemoveListener(gm.PauseGame);
-        }
+        if (gm == null)
+            return;
 
-        if (returnToMenuButton != null)
-        {
-            returnToMenuButton.onClick.RemoveListener(gm.ReturnToMainMenu);
-        }
+        Unregister(playButtons, gm.StartGame);
 
-        if (resumeButton != null)
+        Unregister(resumeButtons, gm.ResumeGame);
+
+        Unregister(restartButtons, gm.RestartLevel);
+
+        Unregister(pauseButtons, gm.PauseGame);
+
+        Unregister(returnMenuButtons, gm.ReturnToMainMenu);
+    }
+
+    private void Unregister(List<Button> buttons, UnityEngine.Events.UnityAction action)
+    {
+        foreach (Button button in buttons)
         {
-            resumeButton.onClick.RemoveListener(gm.ResumeGame);
+            if (button != null)
+            {
+                button.onClick.RemoveListener(action);
+            }
         }
     }
 }

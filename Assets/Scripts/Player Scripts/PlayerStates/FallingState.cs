@@ -1,16 +1,22 @@
-using UnityEngine;
 
-public class FallingState : MonoBehaviour
+public class FallingState : PlayerState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public FallingState(PlayerSTM player) : base(player) { }
+
+    public override void Enter()
     {
         
+        player.PlayAnimation("Falling", 0.01f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        player.ApplyMovement(inputs.Move, inputs.Sprint);
+
+        if (player.IsGrounded && player.VerticalVelocity <= 0f)
+        {
+            AudioManager.Instance.Play("LandingFenix");
+            player.ReturnToMovementState(); 
+        }
     }
 }

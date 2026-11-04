@@ -3144,10 +3144,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicMixer: {fileID: 1465336633308961617, guid: b6c5344a1f6c4ed45b41a8ea2afca721, type: 2}
   sfxMixer: {fileID: 7551645487058533460, guid: b6c5344a1f6c4ed45b41a8ea2afca721, type: 2}
-  minSFXSources: 5
-  maxSFXSources: 15
+  minSFXSources: 10
+  maxSFXSources: 12
   sounds:
-  - name: Music
+  - name: UIMusic
     clips:
     - {fileID: 8300000, guid: 5c527c4a335151d4a92a8c216295cea1, type: 3}
     volume: 0.8
@@ -3155,6 +3155,102 @@ MonoBehaviour:
     isMusic: 1
     cooldown: 0
     priority: 7
+  - name: LevelMusic
+    clips:
+    - {fileID: 8300000, guid: 346d692d92e90a140b2b55685fb25256, type: 3}
+    volume: 0.8
+    loop: 1
+    isMusic: 1
+    cooldown: 0
+    priority: 8
+  - name: DefeatSound
+    clips:
+    - {fileID: 8300000, guid: d284aa593b21f7340be0a3e692b4de91, type: 3}
+    volume: 0.8
+    loop: 0
+    isMusic: 0
+    cooldown: 0.5
+    priority: 8
+  - name: UIClic
+    clips:
+    - {fileID: 8300000, guid: 18c7f6b3cc685ff428afdc515d1ebc8c, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.1
+    priority: 8
+  - name: PaintingEnd
+    clips:
+    - {fileID: 8300000, guid: f40546ffbd062544c9d1e897916d1d8f, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.1
+    priority: 8
+  - name: Brushing
+    clips:
+    - {fileID: 8300000, guid: 310bdfb94abbc974daeba68f8b2bba31, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.2
+    priority: 5
+  - name: Painting
+    clips:
+    - {fileID: 8300000, guid: ec95ddca2da9801499c6fb69125e5b7a, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.2
+    priority: 5
+  - name: WalkingFenix
+    clips:
+    - {fileID: 8300000, guid: be0028d8864beb545a1c6736e3cf7d0a, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.4
+    priority: 3
+  - name: RunningFenix
+    clips:
+    - {fileID: 8300000, guid: 227d3f389e3069e4c878c1ba591cd2b1, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.4
+    priority: 3
+  - name: GruntFenix
+    clips:
+    - {fileID: 8300000, guid: 1f21f2492cd048247be3f50961462b21, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.4
+    priority: 5
+  - name: LandingFenix
+    clips:
+    - {fileID: 8300000, guid: 1f21f2492cd048247be3f50961462b21, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.4
+    priority: 5
+  - name: SlashingFenix
+    clips:
+    - {fileID: 8300000, guid: 3f6c54a60fa68964ea5f38f7a50c7574, type: 3}
+    - {fileID: 8300000, guid: 31ee39d3644ae4744a15add5f85dffe5, type: 3}
+    - {fileID: 8300000, guid: 427f765c98f8a1947b58041b63d5dbb1, type: 3}
+    - {fileID: 8300000, guid: 4a72d20fccf8d784cb2aa61415a0a9af, type: 3}
+    - {fileID: 8300000, guid: 6d98301e1f6305c40aae0dcbb25cceb2, type: 3}
+    - {fileID: 8300000, guid: 6fb88b8a873fa8b47b99b653e630eda0, type: 3}
+    - {fileID: 8300000, guid: 9084fdc38d8bb5a4a9ab2b5dea4589b7, type: 3}
+    - {fileID: 8300000, guid: b18b085d315292e4c91afc5d2c3ef4d1, type: 3}
+    - {fileID: 8300000, guid: f3a82f8921472a446af1fecf6fb0d7cf, type: 3}
+    volume: 1
+    loop: 0
+    isMusic: 0
+    cooldown: 0.2
+    priority: 4
 --- !u!4 &655839769
 Transform:
   m_ObjectHideFlags: 0
@@ -3307,6 +3403,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698818247}
   m_CullTransparentMesh: 1
+--- !u!1 &743453989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 743453991}
+  - component: {fileID: 743453990}
+  m_Layer: 0
+  m_Name: BindingButtons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &743453990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743453989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356917c33aadcc24e9345240ff6b8fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BindingButtons
+  playButtons:
+  - {fileID: 2138187788}
+  resumeButtons: []
+  restartButtons: []
+  pauseButtons: []
+  returnMenuButtons: []
+--- !u!4 &743453991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743453989}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 902.5765, y: 770.13794, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832265225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3811,7 +3957,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MainMenu
+  m_text: Vuelta al Color
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3838,7 +3984,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 193
+  m_fontSize: 137.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7746,7 +7892,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2138187789}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 939442995}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2138187789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7797,3 +7955,4 @@ SceneRoots:
   - {fileID: 939442996}
   - {fileID: 851545856}
   - {fileID: 655839769}
+  - {fileID: 743453991}

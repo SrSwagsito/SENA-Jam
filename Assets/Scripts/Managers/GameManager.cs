@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ChangeState(GameState.MainMenu);
-        AudioManager.Instance.PlayMusic("Music");
+        AudioManager.Instance.PlayMusic("UIMusic");
     }
 
     public void ChangeState(GameState newState)
@@ -55,19 +55,19 @@ public class GameManager : MonoBehaviour
                 UIManager.ShowScreen("GameplayHUD");
                 break;
             case GameState.Pause:
-                UIManager.ShowOverlay("PauseHUD");
+                UIManager.ShowScreen("PauseHUD");
                 Time.timeScale = 0f;
                 break;
             case GameState.Dialogue:
-                UIManager.ShowOverlay("DialogueHUD");
+                UIManager.ShowScreen("DialogueHUD");
                 Time.timeScale = 1f;
                 break;
             case GameState.Victory:
-                UIManager.ShowOverlay("VictoryHUD");
+                UIManager.ShowScreen("VictoryHUD");
                 Time.timeScale = 0f;
                 break;
             case GameState.Defeat:
-                UIManager.ShowOverlay("DefeatHUD");
+                UIManager.ShowScreen("DefeatHUD");
                 Time.timeScale = 0f;
                 break;
 
@@ -80,14 +80,50 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        BindUIManager();
+    }
+
+    private void BindUIManager()
+    {
+        UIManager = FindFirstObjectByType<UiManager>();
+
+        if (UIManager == null)
+        {
+            Debug.LogWarning("No hay UIManager"
+            );
+        }
+    }
+
+
+    public void StartGame()
+    {
+        AudioManager.Instance.Play("UIClic");
+        SceneManager.LoadScene("IslandMap");
+        ChangeState(GameState.MainMenu);
+    }
     public void ReturnToMainMenu()
     {
+        AudioManager.Instance.Play("UIClic");
         SceneManager.LoadScene("MainMenu");
         ChangeState(GameState.MainMenu);
     }
 
     public void ResumeGame()
     {
+        AudioManager.Instance.PlayMusic("UIMusic");
+
         if (CurrentState != GameState.Pause) return;
 
         ChangeState(GameState.Gameplay);
@@ -95,6 +131,8 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        AudioManager.Instance.PlayMusic("UIMusic");
+
         if (CurrentState != GameState.Gameplay) return;
 
         ChangeState(GameState.Pause);
@@ -110,10 +148,12 @@ public class GameManager : MonoBehaviour
     public void Defeat()
     {
         if (CurrentState != GameState.Gameplay && CurrentState != GameState.Pause) return;
+
         ChangeState(GameState.Defeat);
     }
     public void RestartLevel()
     {
+        AudioManager.Instance.Play("UIClic");
 
         ChangeState(GameState.Gameplay);
 
@@ -122,6 +162,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
+        AudioManager.Instance.Play("UIClic");
         Application.Quit();
     }
 

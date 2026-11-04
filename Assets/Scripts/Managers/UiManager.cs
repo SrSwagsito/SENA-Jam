@@ -68,22 +68,51 @@ public class UiManager : MonoBehaviour
         BaseUiPanel hideScreen = currenScreen;
         currenScreen = null;
 
-        yield return currenScreen.HideCoroutine();
+        yield return hideScreen.HideCoroutine();
         hideScreen.gameObject.SetActive(false);
         isTransitioning = false;
     }
 
+    //public void ShowOverlay(string overlayName)
+    //{
+    //    BaseUiPanel overlay = overlays.Find(i => i.PanelName == overlayName);
+
+    //    if (overlayName == null)
+    //    {
+    //        Debug.LogError("El overlay " + overlayName + " no existe"); return; 
+    //    }
+
+    //    if (activeOverlays.Contains(overlay)) return;
+
+
+    //    activeOverlays.Add(overlay);
+    //    overlay.gameObject.SetActive(true);
+    //    overlay.Show();
+
+    //    StartCoroutine(overlay.ShowCoroutine(false));
+    //}
+
     public void ShowOverlay(string overlayName)
     {
-        BaseUiPanel overlay = overlays.Find(i => i.PanelName == overlayName);
+        BaseUiPanel overlay = overlays.Find(
+            i => i != null && i.PanelName == overlayName
+        );
 
-        if (overlayName == null)
+        if (overlay == null)
         {
-            Debug.LogError("El overlay " + overlayName + " no existe"); return; 
+            Debug.LogError(
+                $"No se encontró el overlay '{overlayName}'. " +
+                "Comprueba la lista Overlays y el nombre del panel.",
+                this
+            );
+            return;
         }
 
-        if (activeOverlays.Contains(overlay)) return;
+        if (activeOverlays.Contains(overlay))
+            return;
+
         activeOverlays.Add(overlay);
+
         overlay.gameObject.SetActive(true);
         overlay.Show();
 

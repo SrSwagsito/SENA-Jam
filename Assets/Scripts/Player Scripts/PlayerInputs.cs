@@ -5,6 +5,7 @@ public class PlayerInputs : MonoBehaviour
 {
     [SerializeField] private InputActionReference move;
     [SerializeField] private InputActionReference sprint;
+    [SerializeField] private InputActionReference jump;
 
     [SerializeField] private InputActionReference interact;
 
@@ -16,7 +17,8 @@ public class PlayerInputs : MonoBehaviour
     public Vector2 Move => move.action.ReadValue<Vector2>();
 
     public bool Sprint => sprint.action.IsPressed();
-    public bool Interact => interact.action.WasPressedThisFrame();
+    public bool Interact => interact.action.IsPressed();
+    public bool Jump => jump.action.WasPressedThisFrame();
 
     public bool Attack => attack.action.WasPressedThisFrame();
     public bool Block => block.action.IsPressed();

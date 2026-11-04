@@ -1,16 +1,24 @@
-using UnityEngine;
 
-public class JumpState : MonoBehaviour
+public class JumpState : PlayerState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public JumpState(PlayerSTM player) : base(player) { }
+
+    public override void Enter()
     {
-        
+        //AudioManager.Instance.Play("JumpingFenix");
+
+        player.PlayAnimation("Jump" , 0.05f);
+    
+        player.StartJump();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        player.ApplyMovement(inputs.Move, inputs.Sprint);
+
+        if (player.VerticalVelocity <= 0f)
+        {
+            player.ChangeState(player.FallingState);
+        }
     }
 }

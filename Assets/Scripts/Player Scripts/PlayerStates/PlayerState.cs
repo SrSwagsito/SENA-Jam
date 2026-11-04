@@ -4,7 +4,7 @@ public abstract class PlayerState
 {
     protected PlayerSTM player;
     protected PlayerInputs inputs;
-    protected Animator animator;
+    //protected Animator animator;
     protected PlayerState(PlayerSTM player)
     {
         this.player = player;
